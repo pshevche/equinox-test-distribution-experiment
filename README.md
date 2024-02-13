@@ -12,3 +12,7 @@ This repository demonstrates how Eclipse Equinox environment can be set up on a 
 * [Using internal functionality to remap bundle paths](https://github.com/pshevche/equinox-test-distribution-experiment/tree/remap-equinox-config): this branch demonstrates how to transfer all bundles required to run tests to the remote agents, and how to update references to them in `config.ini` and `bundles.info` files.
 * [Transferring bundles files without tracking them as inputs](https://github.com/pshevche/equinox-test-distribution-experiment/tree/remap-equinox-config-single-directory): declaring all bundles as inputs can hinder Gradle's caching. This branch demonstrates how to transfer files to the remote agent without declaring them as inputs.
 * [Transferring workspace content as a single folder](https://github.com/pshevche/equinox-test-distribution-experiment/tree/remap-equinox-config-single-directory): this branch demonstrates how to package all workspace content as a single workspace, which will be transferred as a single zipped entry. This increases the file transfer times.
+
+### How does this example work?
+1. Declare inputs on all bundles and configuration files that have to be transferred to the agent (see [builds.gradle.kts L29-31](lib/build.gradle.kts)).
+2. Declare configuration files referencing bundles via their absolute paths as `processedResources` (see [builds.gradle.kts L37-46](lib/build.gradle.kts)). Test Distribution will replace all paths that it can detect in the file with their locations on the remote agent.

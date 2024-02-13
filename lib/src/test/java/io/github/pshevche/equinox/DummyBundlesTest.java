@@ -1,5 +1,6 @@
 package io.github.pshevche.equinox;
 
+import com.gradle.develocity.testing.annotations.RemoteOnly;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+@RemoteOnly
 class DummyBundlesTest {
 
     @Test

@@ -8,6 +8,7 @@ repositories {
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("com.gradle:develocity-testing-annotations:2.0.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -21,7 +22,6 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
     distribution {
         enabled = true
-        maxRemoteExecutors = 0
         requirements.addAll("demo")
     }
 }

@@ -19,4 +19,9 @@ java {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+    distribution {
+        enabled = true
+        maxRemoteExecutors = 0
+        requirements.addAll("demo")
+    }
 }

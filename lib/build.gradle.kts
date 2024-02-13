@@ -1,3 +1,5 @@
+import com.gradle.enterprise.gradleplugin.testdistribution.internal.TestDistributionExtensionInternal
+
 plugins {
     `java-library`
 }
@@ -22,8 +24,24 @@ java {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+
+    // make equinox resources available on the remote agent
+    inputs.files("../equinox-configuration")
+    inputs.files("../equinox-framework")
+    inputs.files("../external-osgi-bundles")
+
     distribution {
         enabled = true
         requirements.addAll("demo")
+
+        this as TestDistributionExtensionInternal
+        processedResources {
+            create("equinoxConfig") {
+                files.from("../equinox-configuration/config.ini")
+            }
+            create("equinoxBundlesInfo") {
+                files.from("../equinox-configuration/org.eclipse.equinox.simpleconfigurator/bundles.info")
+            }
+        }
     }
 }

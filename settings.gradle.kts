@@ -4,10 +4,7 @@ plugins {
 }
 
 gradleEnterprise {
-    server = "https://ge-td-dogfooding.grdev.net"
-    buildScan {
-        publishAlways()
-    }
+    server = providers.systemProperty("develocity.server").getOrElse("https://scans.gradle.com")
 }
 
 rootProject.name = "equinox-test-distribution-experiment"

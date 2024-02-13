@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +15,7 @@ abstract class BaseBundlesAvailabilityTest {
 
     @BeforeAll
     static void createEquinoxWorkspace() throws IOException {
-        workspace = EquinoxSimulator.createWorkspace(Paths.get("../equinox-configuration/config.ini"));
+        workspace = EquinoxSimulator.createWorkspace(Paths.get("./build/equinoxWorkspace/equinox-configuration/config.ini"));
         workspace.printSummary();
     }
 

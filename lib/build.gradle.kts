@@ -1,4 +1,5 @@
 import com.gradle.enterprise.gradleplugin.testdistribution.internal.TestDistributionExtensionInternal
+import io.github.pshevche.equinox.PackageEquinoxWorkspace
 
 plugins {
     `java-library`
@@ -22,13 +23,16 @@ java {
     }
 }
 
+val packageEquinoxWorkspace = tasks.register<PackageEquinoxWorkspace>("packageWorkspace") {
+    equinoxConfigFile = file("../equinox-configuration/config.ini")
+    outputDirectory = layout.buildDirectory.dir("equinoxWorkspace")
+}
+
 tasks.named<Test>("test") {
     useJUnitPlatform()
 
-    // make equinox resources available on the remote agent
-    inputs.files("../equinox-configuration")
-    inputs.files("../equinox-framework")
-    inputs.files("../external-osgi-bundles")
+    val workspaceDirectory = packageEquinoxWorkspace.map { it.outputDirectory }
+    inputs.files(workspaceDirectory)
 
     distribution {
         enabled = true
@@ -37,10 +41,10 @@ tasks.named<Test>("test") {
         this as TestDistributionExtensionInternal
         processedResources {
             create("equinoxConfig") {
-                files.from("../equinox-configuration/config.ini")
+                files.from(workspaceDirectory.map { it.file("equinox-configuration/config.ini") })
             }
             create("equinoxBundlesInfo") {
-                files.from("../equinox-configuration/org.eclipse.equinox.simpleconfigurator/bundles.info")
+                files.from(workspaceDirectory.map { it.file("equinox-configuration/org.eclipse.equinox.simpleconfigurator/bundles.info") })
             }
         }
     }

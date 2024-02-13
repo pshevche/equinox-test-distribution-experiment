@@ -1,0 +1,1 @@
+OSGi's plugin to control the bundle list

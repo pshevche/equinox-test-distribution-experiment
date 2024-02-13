@@ -25,22 +25,22 @@ java {
 tasks.named<Test>("test") {
     useJUnitPlatform()
 
-    // make equinox resources available on the remote agent
-    inputs.files("../equinox-configuration")
-    inputs.files("../equinox-framework")
-    inputs.files("../external-osgi-bundles")
-
     distribution {
         enabled = true
         requirements.addAll("demo")
 
+        // processed resources are also transferred to agents
+        // each file in the directory will be processed (e.g., file paths will be remapped)
         this as TestDistributionExtensionInternal
         processedResources {
             create("equinoxConfig") {
-                files.from("../equinox-configuration/config.ini")
+                files.from("../equinox-configuration")
             }
-            create("equinoxBundlesInfo") {
-                files.from("../equinox-configuration/org.eclipse.equinox.simpleconfigurator/bundles.info")
+            create("equinoxFramework") {
+                files.from("../equinox-framework")
+            }
+            create("externalOsgiBundles") {
+                files.from("../external-osgi-bundles")
             }
         }
     }
